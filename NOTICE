@@ -1,0 +1,9 @@
+This repository contains measurement scripts and results produced on a private
+DGX Spark cluster. It builds on third-party day-0 deployment recipes:
+
+- tonyd2wild/GLM-5.3-Flash-NVFP4-262K-2x-DGX-Spark (patch chain v1-v8, flags, KV-ladder study)
+- tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark (TP4 topology, cache-flusher sidecar, KV pin)
+
+Model weights are NOT included; fetch them from the Hugging Face repos listed
+in the README. No model weights, datasets, or proprietary artifacts are
+distributed here.
