@@ -1,0 +1,285 @@
+{
+  "url": "http://127.0.0.1:8000/v1/chat/completions",
+  "model": "glm-5.3-flash",
+  "started": "2026-08-28 16:59:47",
+  "max_tokens": 512,
+  "cells": [
+    {
+      "concurrency": 1,
+      "prompt_kind": "prose",
+      "runs": [
+        {
+          "wall_s": 19.415,
+          "agg_tps": 26.37,
+          "per_stream_decode_med": 26.65,
+          "ttft_med_s": 0.2428,
+          "tokens": [
+            512
+          ]
+        },
+        {
+          "wall_s": 19.66,
+          "agg_tps": 26.04,
+          "per_stream_decode_med": 26.32,
+          "ttft_med_s": 0.2415,
+          "tokens": [
+            512
+          ]
+        },
+        {
+          "wall_s": 20.468,
+          "agg_tps": 25.01,
+          "per_stream_decode_med": 25.41,
+          "ttft_med_s": 0.3549,
+          "tokens": [
+            512
+          ]
+        }
+      ],
+      "agg_tps_med": 26.04,
+      "per_stream_med": 26.32,
+      "ttft_med_s": 0.2428
+    },
+    {
+      "concurrency": 4,
+      "prompt_kind": "prose",
+      "runs": [
+        {
+          "wall_s": 36.243,
+          "agg_tps": 56.51,
+          "per_stream_decode_med": 14.68,
+          "ttft_med_s": 0.4155,
+          "tokens": [
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 34.9,
+          "agg_tps": 58.68,
+          "per_stream_decode_med": 15.11,
+          "ttft_med_s": 0.4115,
+          "tokens": [
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 34.342,
+          "agg_tps": 59.64,
+          "per_stream_decode_med": 15.6,
+          "ttft_med_s": 0.664,
+          "tokens": [
+            512,
+            512,
+            512,
+            512
+          ]
+        }
+      ],
+      "agg_tps_med": 58.68,
+      "per_stream_med": 15.11,
+      "ttft_med_s": 0.4155
+    },
+    {
+      "concurrency": 8,
+      "prompt_kind": "prose",
+      "runs": [
+        {
+          "wall_s": 70.878,
+          "agg_tps": 57.79,
+          "per_stream_decode_med": 14.84,
+          "ttft_med_s": 17.7291,
+          "tokens": [
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 69.988,
+          "agg_tps": 58.52,
+          "per_stream_decode_med": 15.12,
+          "ttft_med_s": 14.9313,
+          "tokens": [
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 71.573,
+          "agg_tps": 57.23,
+          "per_stream_decode_med": 14.72,
+          "ttft_med_s": 16.8982,
+          "tokens": [
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512
+          ]
+        }
+      ],
+      "agg_tps_med": 57.79,
+      "per_stream_med": 14.84,
+      "ttft_med_s": 16.8982
+    },
+    {
+      "concurrency": 1,
+      "prompt_kind": "code",
+      "runs": [
+        {
+          "wall_s": 16.808,
+          "agg_tps": 30.46,
+          "per_stream_decode_med": 31.08,
+          "ttft_med_s": 0.3648,
+          "tokens": [
+            512
+          ]
+        },
+        {
+          "wall_s": 14.546,
+          "agg_tps": 35.2,
+          "per_stream_decode_med": 36.06,
+          "ttft_med_s": 0.3751,
+          "tokens": [
+            512
+          ]
+        },
+        {
+          "wall_s": 16.509,
+          "agg_tps": 31.01,
+          "per_stream_decode_med": 31.65,
+          "ttft_med_s": 0.363,
+          "tokens": [
+            512
+          ]
+        }
+      ],
+      "agg_tps_med": 31.01,
+      "per_stream_med": 31.65,
+      "ttft_med_s": 0.3648
+    },
+    {
+      "concurrency": 4,
+      "prompt_kind": "code",
+      "runs": [
+        {
+          "wall_s": 31.518,
+          "agg_tps": 64.98,
+          "per_stream_decode_med": 16.69,
+          "ttft_med_s": 0.7212,
+          "tokens": [
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 30.446,
+          "agg_tps": 67.27,
+          "per_stream_decode_med": 17.84,
+          "ttft_med_s": 0.44,
+          "tokens": [
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 31.451,
+          "agg_tps": 65.12,
+          "per_stream_decode_med": 17.69,
+          "ttft_med_s": 0.7073,
+          "tokens": [
+            512,
+            512,
+            512,
+            512
+          ]
+        }
+      ],
+      "agg_tps_med": 65.12,
+      "per_stream_med": 17.69,
+      "ttft_med_s": 0.7073
+    },
+    {
+      "concurrency": 8,
+      "prompt_kind": "code",
+      "runs": [
+        {
+          "wall_s": 63.466,
+          "agg_tps": 64.54,
+          "per_stream_decode_med": 16.98,
+          "ttft_med_s": 14.9186,
+          "tokens": [
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 64.057,
+          "agg_tps": 63.94,
+          "per_stream_decode_med": 16.9,
+          "ttft_med_s": 15.331,
+          "tokens": [
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512
+          ]
+        },
+        {
+          "wall_s": 64.386,
+          "agg_tps": 63.62,
+          "per_stream_decode_med": 16.33,
+          "ttft_med_s": 15.6781,
+          "tokens": [
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512,
+            512
+          ]
+        }
+      ],
+      "agg_tps_med": 63.94,
+      "per_stream_med": 16.9,
+      "ttft_med_s": 15.331
+    }
+  ],
+  "finished": "2026-08-28 17:15:47"
+}

@@ -1,0 +1,12 @@
+{"kind": "count200", "iter": 0, "completion_tokens": 600, "wall_s": 11.821, "tok_s": 50.76}
+{"kind": "count200", "iter": 1, "completion_tokens": 600, "wall_s": 11.982, "tok_s": 50.08}
+{"kind": "count200", "iter": 2, "completion_tokens": 600, "wall_s": 11.572, "tok_s": 51.85}
+{"kind": "alphabet8", "iter": 0, "completion_tokens": 496, "wall_s": 12.551, "tok_s": 39.52}
+{"kind": "alphabet8", "iter": 1, "completion_tokens": 291, "wall_s": 9.528, "tok_s": 30.54}
+{"kind": "alphabet8", "iter": 2, "completion_tokens": 88, "wall_s": 2.7, "tok_s": 32.6}
+{"kind": "prose", "iter": 0, "completion_tokens": 512, "wall_s": 21.441, "tok_s": 23.88}
+{"kind": "prose", "iter": 1, "completion_tokens": 512, "wall_s": 19.907, "tok_s": 25.72}
+{"kind": "prose", "iter": 2, "completion_tokens": 512, "wall_s": 21.723, "tok_s": 23.57}
+{"kind": "code", "iter": 0, "completion_tokens": 512, "wall_s": 11.593, "tok_s": 44.16}
+{"kind": "code", "iter": 1, "completion_tokens": 512, "wall_s": 12.622, "tok_s": 40.56}
+{"kind": "code", "iter": 2, "completion_tokens": 512, "wall_s": 11.809, "tok_s": 43.36}

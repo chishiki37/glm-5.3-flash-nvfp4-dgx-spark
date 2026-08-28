@@ -29,6 +29,7 @@ All numbers: on-box, 512 output tokens, temperature 0, thinking off, median of 3
 | 05 | [TP4 KV ladder](reports/05-tp4-kv-ladder.md) | KV slab 16→40 GiB, long-prefill stress gate, **+ 2026-08-28 concurrent-prefill re-gate** | **5.75M-token pool at 1M ctx**; cleared the source fleet's 38 GiB wall and the 32 GiB concurrent-prefill OOM that stopped theirs |
 | 06 | [Fleet ops findings](reports/06-fleet-ops-findings.md) | The bugs behind the numbers | New `rpc.nfsd -r` 21 GiB memory trap; GID-index fix; KV-pin doctrine |
 | 07 | [DFlash2 speculative port](reports/07-dflash2-speculative-port.md) | Upstream's DFlash2 drafter at TP2 **and TP4** (first TP4 run) | TP4: **adopted for code/agentic** — C1 wins everywhere, code up to 70–84 tok/s; TP2: MTP3 retained |
+| 08 | [TP2 DFlash2 optimization sweep](reports/08-tp2-dflash2-optimization-sweep.md) | spec depth × draft sampling × max-num-seqs, 4 arms + battery | spec7/greedy/mns6 stands; verify-cost hypothesis refuted; C8-TTFT blowout is architectural at TP2 (not queueing) |
 
 ## Key findings, in one list
 
