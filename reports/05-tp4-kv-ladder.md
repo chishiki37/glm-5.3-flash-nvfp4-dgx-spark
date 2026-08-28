@@ -44,3 +44,17 @@ Residual MemAvailable logged on all 4 nodes after each boot (the edge-band check
 ```
 
 5,747,003 fp8 KV tokens = **5.75 concurrent full-1M-context requests** on 4× DGX Spark, at 39.6 tok/s single-stream. For 262K-serving with more headroom, L3 (32 GiB / 17.5×) is the comfortable choice.
+
+## Re-gate (2026-08-28): concurrent-prefill stress
+
+Upstream's 2026-08-27 crash forensics showed the single-prefill gate above is **insufficient**: their 32 GiB config passed a single 20K prefill, then NVRM-OOM'd under three overlapping 20K prefills from real traffic (they shipped 24 GiB as a result). We re-ran L3/L4/L5 with a harder gate: the original 25K single prefill **plus** 3× simultaneous 20,925-token prefills, then a post-stress sanity request.
+
+| Rung | Pool | Single gate | 3× concurrent 20K prefill | Residual boot → post-gate (GiB, bdea/9105/3b24/cb98) | Verdict |
+|---|---:|---|---|---|---|
+| L3 32 GiB @ 262K | 4,597,602 | ✅ 30.4 s | ✅ 67 s wall | 18.6/19.2/19.4/14.7 → 18.2/18.8/19.2/14.2 | **PASS** |
+| L4 32 GiB @ 1M | 4,597,602 | ✅ | ✅ | 20.0/19.5/19.6/15.5 → 19.2/18.8/19.5/14.3 | **PASS** |
+| L5 40 GiB @ 1M | 5,747,003 | ✅ 30.0 s | ✅ 61 s wall | 11.7/10.9/11.7/6.6 → 11.0/10.4/11.1/5.7 | **PASS** |
+
+**L3 (32 GiB) is the exact config that OOM'd the source fleet under the same 3-way prefill load.** The difference on our fleet is Report 06's `rpc.nfsd -r` fix: the portlist-echo NFS-RDMA registration reclaims ~21 GiB of unified memory on the head node, which is precisely the headroom the concurrent-prefill activation transient demands.
+
+Caveat: L5 now runs the head node to **5.7 GiB residual post-gate** — below the source's 8–10 GiB edge band and close to typical anti-OOM watchdog thresholds. L5 passed, but **L4 (32 GiB @ 1M, ~14–19 GiB residual) is the recommended 1M-context default**; reserve L5 for when 5.75 resident 1M-requests is actually needed and watch cb98 MemAvailable.

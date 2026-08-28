@@ -97,6 +97,32 @@ Port of tonyd2wild's residual-headroom doctrine (grow the KV slab until only ~8�
 
 **L5 (40 GiB) is the production ceiling:** cb98 residual lands at 9.0 GiB — the bottom of the edge band; stop here. Our fleet passes 40 GiB where theirs died at 38 GiB (the stress gate is the difference-maker; do not ship a slab bump without it). Decode cost of 9 GiB→40 GiB: within probe noise (42.6→39.6). Production config at max capacity: `--kv-cache-memory 42949672960 --max-model-len 1048576` (everything else as the winner config). At 262K serving, L3's 32 GiB/17.5× keeps more headroom.
 
+**2026-08-28 re-gate:** upstream forensics showed a single prefill is not enough — their 32 GiB config died under **3× concurrent 20K prefills**. We re-ran L3/L4/L5 with that load added to the gate: **all three PASS** (L3 = the exact config that OOM'd their fleet; our `rpc.nfsd` portlist fix supplies the headroom). L5's head-node residual now lands at 5.7 GiB post-gate, so **L4 (32 GiB @ 1M) is the recommended 1M default**; full table in [Report 05](reports/05-tp4-kv-ladder.md).
+
+### DFlash2 speculative decoding (measured 2026-08-28) — code/agentic flagship at TP4
+
+Upstream's DFlash2 block-diffusion drafter ([tonyd2wild overlay](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-DFlash2-2x-DGX-Spark), applied clean onto our v8 base) with `incoai/GLM-5.3-Flash-DFlash2` (2.2 GB, on NFS next to the weights). Full analysis: [Report 07](reports/07-dflash2-speculative-port.md).
+
+Serve flags (delta from the winner config):
+
+```
+image: radixark/vllm-glm53-flash:sm121-v8-dflash2
+-v <weights-dir>/GLM-5.3-Flash-DFlash2:/models/dflash2-draft:ro
+--speculative-config '{"method":"dflash","model":"/models/dflash2-draft","num_speculative_tokens":7}'
+```
+
+(`num_speculative_tokens` must be 7 = block_size − 1. Healthy boot signatures: `Using Eagle3 auxiliary layers from config: (6, 15, 25, 34, 43)`; KV geometry sim in `overlay-dflash2/sim_glm5_drafter.py` passes before any boot.)
+
+| TP4 cell | MTP3 | DFlash2 | Verdict |
+|---|---:|---:|---|
+| Prose C1 | 40.0 | 41.2 | DFlash2 |
+| Prose C8 agg | 114.4 | 103.8 | MTP3 (−9%) |
+| Code C1 | 40.6 | 45.0 | DFlash2 |
+| Code C8 agg | 110.9 | 113.2 | DFlash2 |
+| Structured C1 (count/code prompts) | ~40 | **70–84** | DFlash2 (up to 2.1×) |
+
+**Pick DFlash2 for code/agentic traffic (especially structured output, where acceptance hits 57–65%); keep MTP3 for prose-heavy multi-user serving.** At TP2 the verdict flips — 7-token verification cost dominates there and MTP3 keeps the TP2 slot. KV pool cost: zero per-block (sim-verified), ~19% of the pinned pool in runtime buffers (draft logits cache + codebooks).
+
 
 ## Troubleshooting (symptom → cause → fix)
 
@@ -128,4 +154,5 @@ Qwen3.8-Flash-Next on 2 nodes beats GLM-5.3-Flash on 4 nodes in every throughput
 
 - Model: zai-org/GLM-5.3-Flash · Quant: LibertAIDAI/GLM-5.3-Flash-NVFP4
 - Day-0 recipes: tonyd2wild/GLM-5.3-Flash-NVFP4-262K-2x-DGX-Spark and .../GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark (patch chain, flags, ops rules, KV-ladder study)
+- DFlash2 overlay + drafter integration: tonyd2wild/GLM-5.3-Flash-NVFP4-DFlash2-2x-DGX-Spark · Drafter: incoai/GLM-5.3-Flash-DFlash2 (TP4 evaluation in Report 07 is new — upstream ran TP2 only)
 - Fleet: Vikas Sridhar's CRS812 cluster; campaign by Hermes Agent

@@ -26,16 +26,18 @@ All numbers: on-box, 512 output tokens, temperature 0, thinking off, median of 3
 | 02 | [TP2 winner battery](reports/02-tp2-winner-battery.md) | C1/C4/C8 × prose/code | 73.4 tok/s aggregate at C8 |
 | 03 | [TP4 autoresearch sweep](reports/03-tp4-autoresearch-sweep.md) | MTP3 vs MTP4 at 4 nodes | MTP3 wins again: 38.6 tok/s (+8% vs source headline) |
 | 04 | [TP4 winner battery](reports/04-tp4-winner-battery.md) | C1/C4/C8 × prose/code | 114.4 tok/s aggregate at C8 |
-| 05 | [TP4 KV ladder](reports/05-tp4-kv-ladder.md) | KV slab 16→40 GiB, long-prefill stress gate | **5.75M-token pool at 1M ctx**; cleared the source fleet's 38 GiB failure wall |
+| 05 | [TP4 KV ladder](reports/05-tp4-kv-ladder.md) | KV slab 16→40 GiB, long-prefill stress gate, **+ 2026-08-28 concurrent-prefill re-gate** | **5.75M-token pool at 1M ctx**; cleared the source fleet's 38 GiB wall and the 32 GiB concurrent-prefill OOM that stopped theirs |
 | 06 | [Fleet ops findings](reports/06-fleet-ops-findings.md) | The bugs behind the numbers | New `rpc.nfsd -r` 21 GiB memory trap; GID-index fix; KV-pin doctrine |
+| 07 | [DFlash2 speculative port](reports/07-dflash2-speculative-port.md) | Upstream's DFlash2 drafter at TP2 **and TP4** (first TP4 run) | TP4: **adopted for code/agentic** — C1 wins everywhere, code up to 70–84 tok/s; TP2: MTP3 retained |
 
 ## Key findings, in one list
 
 1. **MTP3 beats MTP4** at both scales (+8.8% TP2, +1.2% TP4) — the fourth draft token's ~0.15–0.23 acceptance costs more than it returns
 2. **fp8 KV doubles the token pool** at near-zero speed cost; pin `--kv-cache-memory` verbatim or GB10's allocator fails fast
-3. **KV capacity scales linearly to the edge band**: 40 GiB slab = 5.75M tokens with 9–12 GiB residual per node — the production ceiling
+3. **KV capacity scales linearly to the edge band**: 40 GiB slab = 5.75M tokens with 9–12 GiB residual per node — the production ceiling. **Re-gated 2026-08-28 under 3× concurrent 20K prefills** (the load that OOM'd the source fleet's 32 GiB config): all rungs pass; our head-node `rpc.nfsd` fix is the difference. Head-node residual at L5 is now thin (5.7 GiB post-gate) — L4 (32 GiB @ 1M) is the recommended 1M default
 4. **`NCCL_IB_GID_INDEX` must be omitted** on mixed fleets (reboot-volatile GID tables)
 5. **Never enable NFS-RDMA with `rpc.nfsd -r`** — it invisibly strands 21 GiB of unified memory; use the portlist echo (Report 06)
+6. **DFlash2 (Report 07) is the code/agentic flagship at TP4**: C1 wins everywhere (45 code / 41 prose vs MTP3's ~40; 70–84 tok/s on structured output), code wins at all concurrencies, −9% prose-C8 aggregate is the trade. At TP2 the 7-token verify cost flips the verdict — MTP3 retained. Acceptance tracks output predictability (57–65% structured vs 25–35% prose)
 
 ## Repo layout
 
