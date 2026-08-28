@@ -30,6 +30,7 @@ All numbers: on-box, 512 output tokens, temperature 0, thinking off, median of 3
 | 06 | [Fleet ops findings](reports/06-fleet-ops-findings.md) | The bugs behind the numbers | New `rpc.nfsd -r` 21 GiB memory trap; GID-index fix; KV-pin doctrine |
 | 07 | [DFlash2 speculative port](reports/07-dflash2-speculative-port.md) | Upstream's DFlash2 drafter at TP2 **and TP4** (first TP4 run) | TP4: **adopted for code/agentic** — C1 wins everywhere, code up to 70–84 tok/s; TP2: MTP3 retained |
 | 08 | [TP2 DFlash2 optimization sweep](reports/08-tp2-dflash2-optimization-sweep.md) | spec depth × draft sampling × max-num-seqs, 4 arms + battery | spec7/greedy/mns6 stands; verify-cost hypothesis refuted; C8-TTFT blowout is architectural at TP2 (not queueing) |
+| 09 | [Abliterated weights verification](reports/09-ablit-verification.md) | `drowzeys/keys-GLM-5.3-Flash-NVFP4-ablit-l15-45-anchorstock` — batteries, re-sweeps, DFlash2, refusal tiers, GSM8K, stock-paired | Uncensoring verified (hard tier 6/6→0/6); speed cost is a pure speculative-acceptance tax (−7 to −19%, raw decode at parity); **DFlash2 becomes the ablit C1 flagship** (code 45.5 tok/s, −0.2% vs stock) |
 
 ## Key findings, in one list
 
