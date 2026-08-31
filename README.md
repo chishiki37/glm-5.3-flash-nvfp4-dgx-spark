@@ -2,7 +2,7 @@
 
 Measured deployment recipes for [zai-org/GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) — 320B total / 18B active MoE, hybrid linear + sparse attention, native MTP head, 262K context — quantized to NVFP4 ([LibertAIDAI quant](https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4), 194.7 GB), served with vLLM on NVIDIA DGX Spark (GB10, SM121) nodes over a 200G RoCEv2 fabric.
 
-Everything below was measured on 2026-08-27 in a single campaign: deployment, a 4-arm + 2-arm autoresearch sweep, winner batteries under concurrency, and a stress-gated KV ladder. Start with the [runbook](runbook-glm53-flash-nvfp4.md) to reproduce; each optimization has its own report below.
+Everything below was measured 2026-08-27 → 2026-08-31 in an ongoing campaign: deployment, a 4-arm + 2-arm autoresearch sweep, winner batteries under concurrency, a stress-gated KV ladder, the DFlash2 port, and — after the ModelOpt token-corruption discovery (Report 10) — a full re-validation on corruption-free `RedHatAI` compressed-tensors weights. Start with the [runbook](runbook-glm53-flash-nvfp4.md) to reproduce; each optimization has its own report below.
 
 ---
 
@@ -15,6 +15,8 @@ Everything below was measured on 2026-08-27 in a single campaign: deployment, a 
 **KV capacity (stress-gated ladder):** **5,747,003 fp8 tokens at 1M context** = 5.75 concurrent full-1M-context requests — vs 5.03M in the source fleet
 
 All numbers: on-box, 512 output tokens, temperature 0, thinking off, median of 3.
+
+**Clean-weights era (2026-08-30/31, DFlash2 + `RedHatAI` compressed-tensors):** TP4 **C8 aggregate 90.75 tok/s** (mns8+no-eager, +92% vs the published default config) · TP2 upstream-recipe reproduction **matched or bettered C1–C6, up to 63.7 tok/s at C5 (+28% at C6)** — see Reports 10–12.
 
 ---
 
@@ -31,6 +33,9 @@ All numbers: on-box, 512 output tokens, temperature 0, thinking off, median of 3
 | 07 | [DFlash2 speculative port](reports/07-dflash2-speculative-port.md) | Upstream's DFlash2 drafter at TP2 **and TP4** (first TP4 run) | TP4: **adopted for code/agentic** — C1 wins everywhere, code up to 70–84 tok/s; TP2: MTP3 retained |
 | 08 | [TP2 DFlash2 optimization sweep](reports/08-tp2-dflash2-optimization-sweep.md) | spec depth × draft sampling × max-num-seqs, 4 arms + battery | spec7/greedy/mns6 stands; verify-cost hypothesis refuted; C8-TTFT blowout is architectural at TP2 (not queueing) |
 | 09 | [Abliterated weights verification](reports/09-ablit-verification.md) | `drowzeys/keys-GLM-5.3-Flash-NVFP4-ablit-l15-45-anchorstock` — batteries, re-sweeps, DFlash2, refusal tiers, GSM8K, stock-paired | Uncensoring verified (hard tier 6/6→0/6); speed cost is a pure speculative-acceptance tax (−7 to −19%, raw decode at parity); **DFlash2 becomes the ablit C1 flagship** (code 45.5 tok/s, −0.2% vs stock) |
+| 10 | [Corruption fix + TP4 re-sweep on clean weights](reports/10-corruption-fix-tp4-redhat-sweep.md) | ModelOpt token corruption (vLLM #54150) reproduced on both fleet checkpoints → swap to `RedHatAI` compressed-tensors, 8-cell TP4 DFlash2 sweep | **0/9 corrupted outputs** (vs 4–9/9 on ModelOpt); dropping `--enforce-eager` +22–38% C1; **B7 combo C8 90.75 tok/s (+92% vs published default)** |
+| 11 | [TP2 DFlash2 lane + upstream recipe reproduction](reports/11-tp2-dflash2-redhat-recipe-repro.md) | TP2 262K sweep on clean weights, then the upstream 2× recipe's own C1–C6 harness (code/reasoning prompts) | **Matched or bettered upstream at every level C1–C6** (38.7/42.8/44.8/54.7/63.7/61.1 vs 35.1/41.6/40.6/47.5/56.2/47.7), zero failures |
+| 12 | [Fleet ops findings II](reports/12-fleet-ops-tp2-oom-lane-move.md) | The bugs behind this campaign | **TP2 rank OOMs the controller host (.1) — banned**; lane moved to .12+.14; final-teardown doctrine; reboot hygiene; runner-survival watchdog |
 
 ## Key findings, in one list
 
@@ -40,6 +45,10 @@ All numbers: on-box, 512 output tokens, temperature 0, thinking off, median of 3
 4. **`NCCL_IB_GID_INDEX` must be omitted** on mixed fleets (reboot-volatile GID tables)
 5. **Never enable NFS-RDMA with `rpc.nfsd -r`** — it invisibly strands 21 GiB of unified memory; use the portlist echo (Report 06)
 6. **DFlash2 (Report 07) is the code/agentic flagship at TP4**: C1 wins everywhere (45 code / 41 prose vs MTP3's ~40; 70–84 tok/s on structured output), code wins at all concurrencies, −9% prose-C8 aggregate is the trade. At TP2 the 7-token verify cost flips the verdict — MTP3 retained. Acceptance tracks output predictability (57–65% structured vs 25–35% prose)
+7. **ModelOpt NVFP4 builds are corrupted** (Report 10): 4–9 corrupted outputs per 9 on both fleet checkpoints (vLLM #54150); `RedHatAI` compressed-tensors is 0/9 and is now the fleet default. Uncensored ablit variants carry the corruption until a compressed-tensors ablit exists
+8. **`--enforce-eager` costs +22–38% C1** on the clean-weights DFlash2 lane — dropping it was the biggest single sweep lever (Reports 10–11)
+9. **A TP2 rank OOMs the controller host** (Report 12): ~107 GiB real footprint + co-resident services hung .1 twice despite cgroup caps — TP2 lane is .12+.14; TP4 ranks remain safe on .1
+10. **Benchmark numbers are prompt-class-relative** (Report 11): the same TP2 engine measures ~20–26 tok/s on freeform prose and ~39 tok/s on code/reasoning prompts. Quote the prompt with the number
 
 ## Repo layout
 
@@ -53,6 +62,6 @@ results/                          raw JSONL/JSON for every completed arm and run
 
 ## Credits
 
-- Model: [zai-org/GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) · Quant: [LibertAIDAI/GLM-5.3-Flash-NVFP4](https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4)
-- Day-0 recipes & patch chain: tonyd2wild ([262K-2x](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-262K-2x-DGX-Spark) · [1M-KV-4x](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark))
-- Campaign: Vikas Sridhar's CRS812 DGX Spark cluster, measured 2026-08-27
+- Model: [zai-org/GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) · Quant: [LibertAIDAI/GLM-5.3-Flash-NVFP4](https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4) (Reports 01–09) → [RedHatAI/GLM-5.3-Flash-NVFP4](https://huggingface.co/RedHatAI/GLM-5.3-Flash-NVFP4) compressed-tensors, fleet default since Report 10 · Drafter: [incoai/GLM-5.3-Flash-DFlash2](https://huggingface.co/incoai/GLM-5.3-Flash-DFlash2)
+- Day-0 recipes & patch chain: tonyd2wild ([262K-2x](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-262K-2x-DGX-Spark) · [1M-KV-4x](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark) · [DFlash2-2x](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-DFlash2-2x-DGX-Spark))
+- Campaign: Vikas Sridhar's CRS812 DGX Spark cluster, measured 2026-08-27 → 2026-08-31

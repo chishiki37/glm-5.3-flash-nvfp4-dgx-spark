@@ -1,0 +1,37 @@
+{
+ "timestamp": "2026-08-31 14:24:35",
+ "url": "http://10.10.10.12:8000/v1/chat/completions",
+ "warmup": {
+  "tokens": 64,
+  "wall": 3.55,
+  "ok": true
+ },
+ "c1": [
+  {
+   "tokens": 256,
+   "wall": 9.99,
+   "ok": true,
+   "tps": 25.63
+  },
+  {
+   "tokens": 256,
+   "wall": 12.51,
+   "ok": true,
+   "tps": 20.46
+  }
+ ],
+ "c4": {
+  "concurrency": 4,
+  "tokens": 1024,
+  "wall": 29.38,
+  "aggregate_tps": 34.85,
+  "ok_count": 4
+ },
+ "c8": {
+  "concurrency": 8,
+  "tokens": 2048,
+  "wall": 51.55,
+  "aggregate_tps": 39.73,
+  "ok_count": 8
+ }
+}

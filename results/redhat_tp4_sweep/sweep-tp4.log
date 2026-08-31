@@ -1,0 +1,211 @@
+===== GLM-5.3-Flash TP4 sweep start Sun Aug 30 06:53:15 PM +07 2026 =====
+
+############ CELL B0-repo-default (repo defaults) ############
+[18:53:15] teardown
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[19:23:52] NOT READY after 30 min
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+CELL B0-repo-default: BOOT FAILED
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+
+############ CELL B1-mns4 (FLASH_MNS=4) ############
+[19:24:11] teardown
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: Connection to 10.10.10.14 port 22 timed out
+[19:56:28] NOT READY after 30 min
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+CELL B1-mns4: BOOT FAILED
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+
+############ CELL B2-mns8 (FLASH_MNS=8) ############
+[19:56:45] teardown
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+Connection timed out during banner exchange
+Connection to 10.10.10.14 port 22 timed out
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: Connection to 10.10.10.14 port 22 timed out
+===== GLM-5.3-Flash TP4 sweep v2 start Sun Aug 30 08:51:11 PM +07 2026 =====
+
+############ CELL B0-repo-default (repo defaults) ############
+[20:51:11] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+cat: /tmp/.sudopw: No such file or directory
+  10.10.10.1 ritual: swappiness=60
+cat: /tmp/.sudopw: No such file or directory
+  10.10.10.2 ritual: swappiness=60
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[21:07:47] READY after ~945s
+[21:07:50] boot 956s; warm 60s
+[21:08:50] corruption probe:
+pass2 prompt1: OK ufffd=0 ctrl=0 finish=length len=725 sample="Here's a Python function to check whether a number is prime:"
+pass2 prompt2: OK ufffd=0 ctrl=0 finish=stop len=33 sample='The weather is really nice today.'
+
+VERDICT: PASS - no corruption detected
+CELL B0-repo-default: boot=956s C1=[33.25, 29.66] C4=47.88 C8=47.29 | defaults
+
+############ CELL B1-mns4 (FLASH_MNS=4) ############
+[21:10:43] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+  10.10.10.1 ritual: swappiness=0
+  10.10.10.2 ritual: swappiness=0
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[21:26:51] READY after ~915s
+[21:26:54] boot 953s; warm 60s
+CELL B1-mns4: boot=953s C1=[30.51, 30.55] C4=48.7 C8=53.01 | FLASH_MNS=4
+
+############ CELL B2-mns8 (FLASH_MNS=8) ############
+[21:29:14] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+  10.10.10.1 ritual: swappiness=0
+  10.10.10.2 ritual: swappiness=0
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[21:45:50] READY after ~945s
+[21:45:53] boot 982s; warm 60s
+CELL B2-mns8: boot=982s C1=[32.78, 34.69] C4=42.4 C8=86.88 | FLASH_MNS=8
+
+############ CELL B3-mns12 (FLASH_MNS=12) ############
+[21:47:59] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+  10.10.10.1 ritual: swappiness=0
+  10.10.10.2 ritual: swappiness=0
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[22:04:36] READY after ~945s
+[22:04:39] boot 983s; warm 60s
+CELL B3-mns12: boot=983s C1=[30.19, 30.81] C4=46.45 C8=68.65 | FLASH_MNS=12
+
+############ CELL B4-mnbt16k (FLASH_MNBT=16384) ############
+[22:06:51] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+  10.10.10.1 ritual: swappiness=0
+  10.10.10.2 ritual: swappiness=0
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[22:26:13] READY after ~1110s
+[22:26:16] boot 1148s; warm 60s
+CELL B4-mnbt16k: boot=1148s C1=[31.11, 32.86] C4=44.06 C8=48.18 | FLASH_MNBT=16384
+
+############ CELL B5-kv28g (FLASH_KV=30064771072) ############
+[22:28:42] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+  10.10.10.1 ritual: swappiness=0
+  10.10.10.2 ritual: swappiness=0
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[22:45:05] READY after ~930s
+[22:45:08] boot 970s; warm 60s
+CELL B5-kv28g: boot=970s C1=[32.65, 32.04] C4=47.78 C8=47.5 | FLASH_KV=30064771072
+
+############ CELL B6-noeager (FLASH_EAGER=0) ############
+[22:47:32] teardown
+  10.10.10.14 ritual: swappiness=0
+  10.10.10.12 ritual: swappiness=0
+  10.10.10.1 ritual: swappiness=0
+  10.10.10.2 ritual: swappiness=0
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[23:04:09] READY after ~945s
+[23:04:12] boot 983s; warm 60s
+CELL B6-noeager: boot=983s C1=[35.56, 41.22] C4=45.58 C8=57.86 | FLASH_EAGER=0
+
+===== SWEEP SUMMARY =====
+B0-repo-default: C1=[33.25, 29.66] C4=47.88 C8=47.29
+B1-mns4: C1=[30.51, 30.55] C4=48.7 C8=53.01
+B2-mns8: C1=[32.78, 34.69] C4=42.4 C8=86.88
+B3-mns12: C1=[30.19, 30.81] C4=46.45 C8=68.65
+B4-mnbt16k: C1=[31.11, 32.86] C4=44.06 C8=48.18
+B5-kv28g: C1=[32.65, 32.04] C4=47.78 C8=47.5
+B6-noeager: C1=[35.56, 41.22] C4=45.58 C8=57.86
+===== sweep done Sun Aug 30 11:06:27 PM +07 2026 =====
+
+############ CELL B7-combo-mns8-noeager ############
+[23:12:21] teardown + ritual
+  10.10.10.14 flusher: armed
+  10.10.10.12 flusher: armed
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank3: vllm_glm53_dflash2 Up 2 seconds
+  rank2: vllm_glm53_dflash2 Up 2 seconds
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[23:28:55] READY after ~945s
+[23:28:58] boot 983s; warm 60s
+CELL B7-combo-mns8-noeager: boot=983s C1=[28.73, 33.68] C4=48.31 C8=90.75
+===== combo done Sun Aug 30 11:31:01 PM +07 2026 =====

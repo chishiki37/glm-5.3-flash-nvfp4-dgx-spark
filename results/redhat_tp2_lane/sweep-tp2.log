@@ -1,0 +1,197 @@
+===== GLM-5.3-Flash TP2 sweep start Sun Aug 30 11:33:10 PM +07 2026 =====
+
+############ TP2 CELL T0-repo-default (repo defaults) ############
+[23:33:10] teardown
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+TP2 CELL T0-repo-default: BOOT FAILED
+  10.10.10.1: (EngineCore pid=269) ValueError: To serve at least one request with the model's max seq len (262144), (2.65 GiB KV cache is needed, which is larger than the available KV cache memory (1.65 GiB). Based on the available me
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xf00a2e59ed48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xf00a2e59f0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 17:48:51.243591876 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+############ TP2 CELL T1-mns8 (FLASH_MNS=8) ############
+[00:48:51] teardown
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+TP2 CELL T1-mns8: BOOT FAILED
+  10.10.10.1: (EngineCore pid=269) ValueError: To serve at least one request with the model's max seq len (262144), (2.65 GiB KV cache is needed, which is larger than the available KV cache memory (1.13 GiB). Based on the available me
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xeff6916ded48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xeff6916df0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 19:04:21.536482012 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+############ TP2 CELL T2-noeager (FLASH_EAGER=0) ############
+[02:04:22] teardown
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+TP2 CELL T2-noeager: BOOT FAILED
+  10.10.10.1: (EngineCore pid=269) ValueError: To serve at least one request with the model's max seq len (262144), (2.65 GiB KV cache is needed, which is larger than the available KV cache memory (0.69 GiB). Try increasing `gpu_memor
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe70ec399ed48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe70ec399f0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 20:19:53.523064021 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+############ TP2 CELL T3-combo-mns8-noeager (FLASH_MNS=8 FLASH_EAGER=0) ############
+[03:19:54] teardown
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+TP2 CELL T3-combo-mns8-noeager: BOOT FAILED
+  10.10.10.1: (EngineCore pid=269) ValueError: No available memory for the cache blocks. Try increasing `gpu_memory_utilization` when initializing the engine (this flag also controls CPU memory reservation on the CPU backend, despite 
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe306d62ded48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe306d62df0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 21:35:25.068049128 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+===== TP2 SWEEP SUMMARY =====
+*: no result
+===== tp2 sweep done Mon Aug 31 04:35:26 AM +07 2026 =====
+===== GLM-5.3-Flash TP2 sweep RUN2 start Mon Aug 31 04:48:34 AM +07 2026 (gmu 0.89, flushers armed) =====
+
+############ TP2 CELL T0-repo-default (repo defaults) ############
+[04:48:34] teardown
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[04:50:45] head container gone after ~120s
+TP2 CELL T0-repo-default: BOOT FAILED (dead=yes)
+  10.10.10.1: (EngineCore pid=269) ERROR 08-30 21:49:46 [core.py:1355] Exception: WorkerProc initialization failed due to an exception in a background process. See stack trace for root cause.
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe605294ded48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe605294df0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 21:50:45.398128274 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+############ TP2 CELL T1-mns8 (FLASH_MNS=8) ############
+[04:50:46] teardown
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[04:53:01] head container gone after ~120s
+TP2 CELL T1-mns8: BOOT FAILED (dead=yes)
+  10.10.10.1: (EngineCore pid=269) ERROR 08-30 21:52:14 [core.py:1355] Exception: WorkerProc initialization failed due to an exception in a background process. See stack trace for root cause.
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xecd5cf8ded48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xecd5cf8df0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 21:53:01.285393579 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+############ TP2 CELL T2-noeager (FLASH_EAGER=0) ############
+[04:53:02] teardown
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[04:55:17] head container gone after ~120s
+TP2 CELL T2-noeager: BOOT FAILED (dead=yes)
+  10.10.10.1: (EngineCore pid=268) ERROR 08-30 21:54:18 [core.py:1355] Exception: WorkerProc initialization failed due to an exception in a background process. See stack trace for root cause.
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe542348ded48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe542348df0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 21:55:17.590453853 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+############ TP2 CELL T3-combo-mns8-noeager (FLASH_MNS=8 FLASH_EAGER=0) ############
+[04:55:18] teardown
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[04:57:33] head container gone after ~120s
+TP2 CELL T3-combo-mns8-noeager: BOOT FAILED (dead=yes)
+  10.10.10.1: (EngineCore pid=268) ERROR 08-30 21:56:38 [core.py:1355] Exception: WorkerProc initialization failed due to an exception in a background process. See stack trace for root cause.
+  10.10.10.1: (APIServer pid=1)     raise RuntimeError(
+  10.10.10.1: (APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+  10.10.10.2: frame #1: c10::DistError::DistError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe2981753ed48 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10
+  10.10.10.2: frame #2: c10::DistNetworkError::DistNetworkError(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x78 (0xe2981753f0c8 in /usr/local/lib/python3.12/dist-packages/to
+  10.10.10.2: [rank1]:[W830 21:57:34.988161018 ProcessGroupNCCL.cpp:1876] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Broken pipe
+
+===== TP2 SWEEP SUMMARY =====
+*: no result
+===== tp2 sweep RUN2 done Mon Aug 31 04:57:35 AM +07 2026 =====
+===== GLM-5.3-Flash TP2 sweep RUN3 start Mon Aug 31 05:06:28 AM +07 2026 (gmu 0.88, flushers armed) =====
+
+############ TP2 CELL T0-repo-default (repo defaults) ############
+[05:06:28] teardown
+  10.10.10.1: done
+  10.10.10.2: done
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+===== GLM-5.3-Flash TP2 sweep RUN4 start Mon Aug 31 11:01:57 AM +07 2026 (gmu 0.88, T1-T3 only; T0 salvaged) =====
+
+############ TP2 CELL T1-mns8 (FLASH_MNS=8) ############
+[11:01:57] teardown
+  10.10.10.1: done
+  10.10.10.2: done
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+===== GLM-5.3-Flash TP2 sweep RUN5 start Mon Aug 31 12:35:57 PM +07 2026 (gmu 0.88, KV pin 4.96G, cap 112g; T1-T3) =====
+
+############ TP2 CELL T1-mns8 (FLASH_MNS=8 FLASH_KV=5325147587) ############
+[12:35:57] teardown
+  10.10.10.1: done
+  10.10.10.2: done
+  10.10.10.1 flusher: armed
+  10.10.10.2 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+===== GLM-5.3-Flash TP2 sweep RUN6 start Mon Aug 31 01:23:04 PM +07 2026 (lane .12+.14; gmu 0.88, KV pin 4.96G, cap 112g; T1-T3) =====
+
+############ TP2 CELL T1-mns8 (FLASH_MNS=8 FLASH_KV=5325147587) ############
+[13:23:04] teardown
+  10.10.10.12: done
+  10.10.10.14: done
+  10.10.10.12 flusher: armed
+  10.10.10.14 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[13:42:06] READY after ~1110s
+[13:42:06] boot 1128s; warm 60s
+  kv: (EngineCore pid=313) INFO 08-31 06:37:28 [kv_cache_utils.py:2274] GPU KV cache size: 488,656 tokens, Maximum concurrency for 262,144 tokens per request: 1.86x
+TP2 CELL T1-mns8: boot=1128s C1=[18.91, 17.61] C4=29.11 C8=30.72
+
+############ TP2 CELL T2-noeager (FLASH_EAGER=0 FLASH_KV=5325147587) ############
+[13:45:22] teardown
+  10.10.10.12: done
+  10.10.10.14: done
+  10.10.10.12 flusher: armed
+  10.10.10.14 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[14:03:00] READY after ~1020s
+[14:03:00] boot 1035s; warm 60s
+  kv: (EngineCore pid=311) INFO 08-31 06:59:51 [kv_cache_utils.py:2274] GPU KV cache size: 488,656 tokens, Maximum concurrency for 262,144 tokens per request: 1.86x
+TP2 CELL T2-noeager: boot=1035s C1=[18.48, 19.19] C4=32.12 C8=39.65
+
+############ TP2 CELL T3-combo-mns8-noeager (FLASH_MNS=8 FLASH_EAGER=0 FLASH_KV=5325147587) ############
+[14:05:55] teardown
+  10.10.10.12: done
+  10.10.10.14: done
+  10.10.10.12 flusher: armed
+  10.10.10.14 flusher: armed
+  rank1: vllm_glm53_dflash2 Up 2 seconds
+  rank0: vllm_glm53_dflash2 Up 2 seconds
+[14:23:34] READY after ~1020s
+[14:23:34] boot 1036s; warm 60s
+  kv: (EngineCore pid=310) INFO 08-31 07:20:25 [kv_cache_utils.py:2274] GPU KV cache size: 488,656 tokens, Maximum concurrency for 262,144 tokens per request: 1.86x
+TP2 CELL T3-combo-mns8-noeager: boot=1036s C1=[25.63, 20.46] C4=34.85 C8=39.73
+
+===== TP2 SWEEP SUMMARY =====
+T0-repo-default: C1=[21.21, 19.06] C4=31.64 C8=37.59
+T1-mns8: C1=[18.91, 17.61] C4=29.11 C8=30.72
+T2-noeager: C1=[18.48, 19.19] C4=32.12 C8=39.65
+T3-combo-mns8-noeager: C1=[25.63, 20.46] C4=34.85 C8=39.73
+  10.10.10.12 flusher: stopped
+  10.10.10.14 flusher: stopped
+===== tp2 sweep RUN6 done Mon Aug 31 02:26:23 PM +07 2026 =====
